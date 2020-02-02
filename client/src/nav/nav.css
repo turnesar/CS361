@@ -1,0 +1,17 @@
+.page-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+nav {
+    flex: 0 0 160px;
+    padding: 20px;
+    border-right: 1px solid #eaeaea; 
+    font-size: 14px;
+}
+
+main {
+    flex: 1 1 auto;
+    padding: 20px;
+}
