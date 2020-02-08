@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './header.css';
 
 export const Header: React.FunctionComponent = () => {
@@ -6,7 +7,7 @@ export const Header: React.FunctionComponent = () => {
         <header className="header" >
             <h1>App Name</h1>
             <div className="button-wrapper">
-                <button>sign in</button>
+                <Link to="/signin"><button>sign in</button></Link>
             </div>
         </header>
     );
