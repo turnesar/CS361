@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Header } from './header/header';
 import { Nav } from './nav/nav';
+import { SubscriptionForm, SubscriptionList } from './pages'
 import './app.css';
 
 const App: React.FunctionComponent = () => {
@@ -14,11 +15,11 @@ const App: React.FunctionComponent = () => {
         <Switch>
           <Route path="/home">
             {/* this will be replaced with a component */}
-            <span>subscriptions list goes here.</span>
+            <SubscriptionList />
           </Route>
           <Route path="/new">
             {/* this will be replaced with a component */}
-            <span>new subscription form goes here.</span>
+            <SubscriptionForm />
           </Route>
           <Route path="/signin">
             <span>signin page</span>
