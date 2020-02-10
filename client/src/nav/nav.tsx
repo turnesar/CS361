@@ -10,7 +10,9 @@ export const Nav: React.FunctionComponent<NavProps> = (props) => {
             <nav>
                 <Link to="/new"><button>Add subscription</button></Link>
 
-                <Link to="/home">Subscriptions</Link>
+                <Link to="/home"><button>Subscriptions</button></Link>
+                
+                <Link to="/costs"><button>Costs</button></Link>
                 {/* Add any other nav links here: */}
             </nav>
             <main>

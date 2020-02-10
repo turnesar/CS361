@@ -19,7 +19,8 @@ const sampleSubscriptions: Subscription[] = [
     {
         id: "001",
         name: 'Internet',
-        price: '$89',
+        startDate: '12/01/2019',
+        price: '89',
         interval: Interval.Monthly,
         vender: sampleVenders[0],
         order: 0,
@@ -27,7 +28,8 @@ const sampleSubscriptions: Subscription[] = [
     {
         id: "002",
         name: 'My netflix',
-        price: '$14.99',
+        startDate: '01/01/2020',
+        price: '14.99',
         interval: Interval.Monthly,
         vender: sampleVenders[1],
         order: 1,
@@ -35,7 +37,8 @@ const sampleSubscriptions: Subscription[] = [
     {
         id: "003",
         name: 'Prime subscription',
-        price: '$100',
+        startDate: '11/24/2018',
+        price: '100',
         interval: Interval.Annual,
         vender: sampleVenders[2],
         order: 2,
@@ -46,6 +49,7 @@ export function fetchSubscriptions(): Promise<Subscription[]> {
     // hit backend api endpoint to fetch subscriptions from database.
     return new Promise((resolve) => {resolve(sampleSubscriptions)});
 }
+
 
 export function createSubscription(subscription: Subscription) {
     // hit backend api endpoint to post new subscription to database.

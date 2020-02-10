@@ -14,6 +14,7 @@ import './form.css';
 export const SubscriptionForm: React.FunctionComponent = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
+    const [startDate, setStartDate] = useState('');
     const [interval, setInterval] = useState<string>(Interval.Monthly);
     const [vender, setVender] = useState<string>('0');
 
@@ -25,7 +26,12 @@ export const SubscriptionForm: React.FunctionComponent = () => {
                 }}/>
             </div>
             <div>
-                <TextField id="filled-basic" label="Price" onChange={(event) => {
+                <TextField id="standard-basic" label="Start Date MM/DD/YYYY" onChange={(event) => {
+                    setStartDate(event.target.value);
+                }}/>
+            </div>
+            <div>
+                <TextField id="filled-basic" label="Price in Dollars" onChange={(event) => {
                     setPrice(event.target.value);
                 }}/>
             </div>
