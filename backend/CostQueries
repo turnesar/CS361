@@ -1,0 +1,27 @@
+--Total monthly cost query-----------------
+select format(sum(a.MonthlyEquivalent), 2) as 'Total Monthly Cost'
+from appuser u
+left join
+	(select UserID, case
+	when ChargeInterval = 'Monthly' then Price
+	when ChargeInterval = 'Weekly' then (Price*4.33)
+	when ChargeInterval = 'Annual' then (Price/12)
+	end as 'MonthlyEquivalent'
+	from subscription) a
+on u.UserID = a.UserID
+
+where u.UserID = :UserIDInput;
+
+--Spending per service query---------------------
+select a.SubName, DATE_FORMAT(a.EntryDateTStamp, '%m/%d/%y') as 'Subscriber Since', format(a.TotalCost, 2) as 'Total Subscription Cost'
+from appuser u
+left join
+	(select UserID, EntryDateTStamp, SubName, case
+	when ChargeInterval = 'Monthly' then (Price*(select timestampdiff(month, EntryDateTStamp, NOW())+1))
+	when ChargeInterval = 'Weekly' then (Price*(select timestampdiff(week, EntryDateTStamp, NOW())+1))
+	when ChargeInterval = 'Annual' then (Price*(select timestampdiff(year, EntryDateTStamp, NOW())+1))
+	end as 'TotalCost'
+	from subscription) a
+on u.UserID = a.UserID
+
+where u.UserID =  :UserIDInput;
