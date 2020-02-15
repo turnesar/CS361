@@ -1,3 +1,33 @@
-form > div {
-    margin-bottom: 16px;
+
+form {
+    max-width: 698px;
+    padding-top: 16px;
+}
+
+form .sub-name {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+form .sub-vendor, form .sub-interval, form .sub-start, form .sub-price {
+    width: 45%;
+    margin-bottom: 20px;
+}
+
+form .sub-vendor, form .sub-price {
+    margin-right: 10%;
+}
+
+@media screen and (max-width: 720px) {
+    form .sub-vendor, form .sub-interval, form .sub-start, form .sub-price {
+        width: 100%;
+    }
+    
+    form .sub-vendor, form .sub-price {
+        margin-right: 0;
+    }
+}
+
+form .submit-button {
+    margin-top: 32px;
 }

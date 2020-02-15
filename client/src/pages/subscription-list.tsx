@@ -12,7 +12,7 @@ export const SubscriptionList: React.FunctionComponent = () => {
     }, []);
 
     const items = subscriptions.map(item => {
-    return <li key={item.id}>{item.id}, {item.name} {item.vender.name} {item.price}</li>;
+    return <li key={item.id}>{item.id}, {item.name} {item.vendor.name} {item.price}</li>;
     })
 
     return (

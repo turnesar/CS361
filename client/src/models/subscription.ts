@@ -1,6 +1,6 @@
 import { Category } from './category';
 import { Interval } from './interval';
-import { Vender } from './vender';
+import { Vendor } from './vendor';
 
 export interface Subscription {
     id: string;
@@ -9,6 +9,6 @@ export interface Subscription {
     price: string;
     interval: Interval;
     category?: Category;
-    vender: Vender;
+    vendor: Vendor;
     order: number;
 }

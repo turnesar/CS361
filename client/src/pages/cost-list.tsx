@@ -17,7 +17,7 @@ export const CostList: React.FunctionComponent = () => {
 
     const items = subscriptions.map(item => {
         /*determine math with accumulator JSON here with moment math*/
-    return <li>{item.vender.name} {item.price}</li>;
+    return <li>{item.vendor.name} {item.price}</li>;
     })
 
     return (
