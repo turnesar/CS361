@@ -5,7 +5,7 @@ import {
     Select, 
     TextField 
 } from '@material-ui/core';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Interval } from '../models'
 import { sampleVenders } from '../services';
 
@@ -76,7 +76,7 @@ export const SubscriptionForm: React.FunctionComponent = () => {
                 </FormControl>
             </div>
             <button type="button" onClick={() => {
-                console.log({name, price, interval, vender});
+                console.log({name, startDate,  price, interval, vender});
             }}>Submit</button>            
         </form>
     );

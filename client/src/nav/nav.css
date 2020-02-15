@@ -6,9 +6,33 @@
 
 nav {
     flex: 0 0 160px;
-    padding: 20px;
+    padding: 0;
     border-right: 1px solid #eaeaea; 
     font-size: 14px;
+    text-align: center;
+}
+
+nav .add-button {
+    margin: 20px 0;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+nav ul li {
+    border-top: 1px solid #eaeaea;
+}
+
+nav ul li a {
+    display: block;
+    width: 100%;
+    padding: 0 20px;
+    line-height: 40px;
+    text-decoration: none;
 }
 
 main {

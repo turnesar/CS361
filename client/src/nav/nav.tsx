@@ -8,12 +8,13 @@ export const Nav: React.FunctionComponent<NavProps> = (props) => {
     return (
         <div className="page-wrapper">
             <nav>
-                <Link to="/new"><button>Add subscription</button></Link>
+                <Link to="/new"><button className="add-button">Add subscription</button></Link>
 
-                <Link to="/home"><button>Subscriptions</button></Link>
-                
-                <Link to="/costs"><button>Costs</button></Link>
-                {/* Add any other nav links here: */}
+                <ul>
+                    <li key="home"><Link to="/home">Subscriptions</Link></li>
+                    <li key="costs"><Link to="/costs">Costs</Link></li>
+                    {/* Add any other nav links here: */}
+                </ul>
             </nav>
             <main>
                 {props.children}
