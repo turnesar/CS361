@@ -1,4 +1,4 @@
-import { Interval, Subscription, Vendor } from '../models';
+import { Interval, Subscription, Vendor, Category } from '../models';
 
 export const sampleVendors: Vendor[] = [
     {
@@ -32,6 +32,7 @@ const sampleSubscriptions: Subscription[] = [
         price: '14.99',
         interval: Interval.Monthly,
         vendor: sampleVendors[1],
+        category: {id: '0', name: 'streaming' },
         order: 1,
     },
     {

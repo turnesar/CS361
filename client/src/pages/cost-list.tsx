@@ -21,10 +21,14 @@ export const CostList: React.FunctionComponent = () => {
     })
 
     return (
+        <>
+        <h2>My costs</h2>
+
         <ul>
             <h3> Monthly Overall Cost for: </h3>
             <h3>Total Cost Per Subscription: </h3>
             {items}
         </ul>
+        </>
     );
 }

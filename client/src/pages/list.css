@@ -1,0 +1,7 @@
+#root .MuiListItemText-root {
+    flex: 1 1 30%;
+}
+
+#root .MuiListItemText-root.name-col {
+    flex: 2 1 50%;
+}
