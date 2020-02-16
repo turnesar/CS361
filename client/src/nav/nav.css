@@ -6,12 +6,49 @@
 
 nav {
     flex: 0 0 160px;
-    padding: 20px;
+    padding: 0;
     border-right: 1px solid #eaeaea; 
     font-size: 14px;
+    text-align: center;
+}
+
+nav .add-button {
+    width: calc(100% - 40px);
+    margin-top: 20px;
+    background-color: #1976d2;
+    color: #fff;
+}
+
+nav .add-button:hover {
+    background-color: rgb(17, 82, 147);
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+nav ul li {
+    border-bottom: 1px solid #eaeaea;
+}
+
+nav ul li a {
+    display: block;
+    width: 100%;
+    padding: 0 20px;
+    line-height: 48px;
+    text-decoration: none;
 }
 
 main {
     flex: 1 1 auto;
-    padding: 20px;
+    padding: 0 20px;
+}
+
+main h2 {
+    line-height: 24px;
+    font-size: 24px;
+    margin: 12px 0;
 }

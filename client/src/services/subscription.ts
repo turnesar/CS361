@@ -1,6 +1,6 @@
-import { Interval, Subscription, Vender } from '../models';
+import { Interval, Subscription, Vendor, Category } from '../models';
 
-export const sampleVenders: Vender[] = [
+export const sampleVendors: Vendor[] = [
     {
         id: '01',
         name: 'Xfinity',
@@ -22,7 +22,7 @@ const sampleSubscriptions: Subscription[] = [
         startDate: '12/01/2019',
         price: '89',
         interval: Interval.Monthly,
-        vender: sampleVenders[0],
+        vendor: sampleVendors[0],
         order: 0,
     },
     {
@@ -31,7 +31,8 @@ const sampleSubscriptions: Subscription[] = [
         startDate: '01/01/2020',
         price: '14.99',
         interval: Interval.Monthly,
-        vender: sampleVenders[1],
+        vendor: sampleVendors[1],
+        category: {id: '0', name: 'streaming' },
         order: 1,
     },
     {
@@ -40,7 +41,7 @@ const sampleSubscriptions: Subscription[] = [
         startDate: '11/24/2018',
         price: '100',
         interval: Interval.Annual,
-        vender: sampleVenders[2],
+        vendor: sampleVendors[2],
         order: 2,
     }
 ]

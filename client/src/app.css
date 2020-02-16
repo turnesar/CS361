@@ -3,7 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 * {
@@ -18,11 +18,28 @@ html, body {
     min-height: 100%;
 }
 
-button {
-    min-width: 80px;
-    min-height: 28px;
-    padding: 0 16px;
-    border: 1px solid #333;
-    cursor: pointer;
-    margin-bottom: 20px;
+#root .MuiButton-textPrimary:not(.add-button) {
+    color: #eaeaea;
+    text-decoration: none;
+}
+
+#root .MuiButton-textPrimary:hover:not(.add-button) {
+    color: #fff;
+} 
+
+#root .MuiButton-containedPrimary {
+    color: #fff;
+    background-color: #1976d2;
+}
+
+#root .MuiButton-containedPrimary:hover {
+    background-color: rgb(17, 82, 147);
+}
+
+a {
+    color: #1976d2;
+}
+
+a:hover {
+    color: rgb(17, 82, 147);
 }
