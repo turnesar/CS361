@@ -1,34 +1,63 @@
 import React, { useEffect, useState } from 'react';
-import { fetchSubscriptions } from '../services'
-import { Subscription } from '../models';
+import { fetchSubscriptions, fetchTotalCost } from '../services'
+import { Subscription, User, Cost } from '../models';
+import moment from 'moment';
+import './list.css';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+
+
 
 
 export const CostList: React.FunctionComponent = () => {
-    const [subscriptions, setSubscriptions] = useState<Subscription[]>([])
+    const [costs, setCosts] = useState<Cost[]>([])
 
     useEffect(() => {
-        fetchSubscriptions().then(response => {
-            setSubscriptions(response);
+        fetchTotalCost().then(response => {
+            setCosts(response);
         });
     }, []);
      
-  
-       /*need to caluclate total this month using moment math*/
+  // return total monthly Cost here, give UserId and receive the 
+  // MonthlyEquivalent
+     
 
-    const items = subscriptions.map(item => {
-        /*determine math with accumulator JSON here with moment math*/
-    return <li>{item.vendor.name} {item.price}</li>;
-    })
+    const items = costs.map(value => 
+        (<ListItem>
+            <ListItemAvatar>
+                <Avatar>
+                    <MonetizationOnIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText className="name-col"
+                primary={value.subscription.vendor.name}
+              
+            />
+            <ListItemText
+                primary={`$${value.totalCost}`}
+                    />
+            
+        </ListItem>)
+    );
+        // this will be used for the itemized list based on user id fetch */
+        // name of the vendor and the total cost 
+  //  return <li>{item.subscription.vendor.name} :${item.totalCost}</li>;
+   // })
 
     return (
         <>
-        <h2>My costs</h2>
-
-        <ul>
-            <h3> Monthly Overall Cost for: </h3>
-            <h3>Total Cost Per Subscription: </h3>
-            {items}
-        </ul>
-        </>
+            <h2> Monthly Overall Cost for {moment().format('MMMM')}:</h2>
+            <h4> $103.99</h4>
+            <h2>Total Cost Per Subscription For All Time: </h2>
+            <List dense={false}>
+                {items}
+            </List>
+       </>
     );
 }
