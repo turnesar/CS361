@@ -6,7 +6,7 @@ import './header.css';
 export const Header: React.FunctionComponent = () => {
     return (
         <header className="header" >
-            <h1>App Name</h1>
+            <h1>Subscription Tracker</h1>
             <div className="button-wrapper">
                 <Link to="/signin"><Button color="primary">Sign in</Button></Link>
             </div>
