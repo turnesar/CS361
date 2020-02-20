@@ -4,18 +4,16 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
 
-
-
-
 var app = express();
-const dotenv = require('dotenv').config();
+
 var pool = mysql.createPool({
-    connectionLimit : process.env.DB_CONLIMIT,  
-    host : process.env.DB_HOST,
-    user : process.env.DB_USER,
-    password : process.env.DB_PASSWORD,
-    database : process.env.DB_DATABASE 
-});   
+    connectionLimit : 10,  
+    host : 'us-cdbr-iron-east-04.cleardb.net',
+    user : 'be0e19f3967445',
+    password : 'd5155e58',
+    database : 'heroku_4331544cc5ebc31' 
+  });
+
 
 //uses second argument to set port
 //app.set('port', process.argv[2]);
