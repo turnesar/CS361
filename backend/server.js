@@ -2,17 +2,24 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-//set up our pool here 
-var pool = mysql.createPool({
-  //add in pool data or connect it with separate file 
-});
+
+
 
 
 
 var app = express();
+const dotenv = require('dotenv').config();
+var pool = mysql.createPool({
+    connectionLimit : process.env.DB_CONLIMIT,  
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_DATABASE 
+});   
 
 //uses second argument to set port
-app.set('port', process.argv[2]);
+//app.set('port', process.argv[2]);
+app.set('port', '3005');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -48,13 +55,14 @@ var server = app.listen(app.get('port'),() => {
 
 
 //also need to add post for login and post for signup.
+//also our default route, assume login?
 
   /**  SUBSCRIPTION QUERIES ****************************
    * GET ALL SUBSCRIPTION DATA 
    * SELECT QUERY
    */
 app.get('/main',(req,res)=> {
-    var subs_sql = "put query here ";   
+    var subs_sql = "SELECT * FROM `subscription`";    
     pool.query(subs_sql,(err,rows,result,fields)=>{
         if(err)
         {
@@ -69,7 +77,7 @@ app.get('/main',(req,res)=> {
   /**  SUBSCRIPTION QUERIES ****************************
    * GET  SORTED SUBSCRIPTION FROM SUBSCRIPTION TABLE WITH JOINS
    * SELECT QUERY
-   */
+   
 app.get('/main/vendor',(req,res)=> {
     var subsV_sql = "put query here";   
     pool.query(subsV_sql,[req.query.vendor_name],(err,rows,result,fields)=>{
@@ -88,7 +96,6 @@ app.get('/main/vendor',(req,res)=> {
  /**
    *INSERT SUBSCRIPTION 
    * 
- */
   app.post('/subscription',(req,res)=>{
     let subData = [req.body.name, req.body.vendor,req.body.startDate, req.body.price, req.body.recurrence];
     var insertSub ="insert query here"
@@ -103,12 +110,12 @@ app.get('/main/vendor',(req,res)=> {
         res.json(rows);
     })
 });
-
+*/
 
  /**
    * UPDATE subscription
    * 
-   */
+  
   app.put('/subscription',(req,res)=>{
     var updatedSub = [req.body.name, req.body.vendor, req.body.startDate, req.body.price, req.body.recurrence, req.body.id];
     var updatesql = "update query";
@@ -123,11 +130,11 @@ app.get('/main/vendor',(req,res)=> {
         res.json(rows);
     })
 });
-
+*/
    /**
    * DELETE CHARACTER
    *   
-   */
+  
   app.delete('/subscription/:id',(req,res)=>{
     pool.query('DELETE FROM `Subscription` WHERE  id = ?',[req.params.id],(err,rows,result,fields)=>{
         if(err)
@@ -141,12 +148,12 @@ app.get('/main/vendor',(req,res)=> {
    })
 });
   
-   
+  */ 
  
  /**
    * GET total costs for all vendor for full time of subscription
    * TO USE IN COST LIST 
-   */
+   
   app.get('/costs/:allTime',(req,res)=> {
     pool.query("put query here",[req.params.user_id],(err,rows,result,fields)=>{
         if(err)
@@ -159,7 +166,7 @@ app.get('/main/vendor',(req,res)=> {
         res.json(rows);
     })
 });
-
+*/
 //404 Page;
 app.use(function(req, res){
     res.status(404);
