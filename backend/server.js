@@ -112,8 +112,8 @@ app.get('/main/vendor',(req,res)=> {
    *INSERT SUBSCRIPTION 
    * ***/
   app.post('/subscription',(req,res)=>{
-    let subData = [req.body.UserId, req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.Vendor, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp];
-    var insertSub ="INSERT INTO `subscription` (`UserId`, `Price`, `ChargeInterval`, `CategoryId`, `Vendor`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)"
+    let subData = [req.body.UserId, req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorId, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp];
+    var insertSub ="INSERT INTO `subscription` (`UserId`, `Price`, `ChargeInterval`, `CategoryId`, `VendorId`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)"
     pool.query(insertSub,[subData],(err,rows,result,fields)=>{
         if(err)
         {
@@ -132,8 +132,8 @@ app.get('/main/vendor',(req,res)=> {
    * */
   
   app.put('/subscription',(req,res)=>{
-    var updatedSub = [req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.Vendor, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp, req.body.SubscriptionID];
-    var updatesql = "UPDATE `subscription` SET `Price`=?, `ChargeInterval`=?, `CategoryId`=?, `Vendor`=?, `ItemOrder`=?, `SubName`=?, `EntryDateTStamp`=? WHERE `SubscriptionID`=?";
+    var updatedSub = [req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorID, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp, req.body.SubscriptionID];
+    var updatesql = "UPDATE `subscription` SET `Price`=?, `ChargeInterval`=?, `CategoryId`=?, `VendorID`=?, `ItemOrder`=?, `SubName`=?, `EntryDateTStamp`=? WHERE `SubscriptionID`=?";
     pool.query(updatesql,updatedSub,(err,rows,result,fields)=>{
         if(err)
         {
