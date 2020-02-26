@@ -25,23 +25,23 @@ export const SubscriptionList: React.FunctionComponent = () => {
     }, []);
 
     const items = subscriptions.map(value => 
-        (<ListItem>
+        (<ListItem key={value.SubscriptionID}>
             <ListItemAvatar>
                 <Avatar>
                     <FolderIcon />
                 </Avatar>
             </ListItemAvatar>
             <ListItemText className="name-col"
-                primary={value.name}
+                primary={value.SubName}
                 secondary={false ? 'Secondary text' : null}
             />
             <ListItemText
-                primary={value.vendor.name}
-                secondary={true ? value.category?.id ? value.category.name : '' : null}
+                primary={value.VendorID}
+                secondary={true ? value.CategoryID ? value.CategoryID : '' : null}
             />
              <ListItemText
-                primary={`$${value.price}`}
-                secondary={true ? ` ${value.interval}` : null}
+                primary={`$${value.Price}`}
+                secondary={true ? ` ${value.ChargeInterval}` : null}
             />
             <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="edit">
