@@ -29,7 +29,7 @@ export const sampleUs: User[] = [
 
 ]
 
-export const sampleS: Subscription[] = [
+export const sampleS = [
     {
         id: "001",
         name: 'Internet',
@@ -59,7 +59,7 @@ export const sampleS: Subscription[] = [
     }
 ]
 
-const sampleCost: Cost[] = [
+const sampleCost = [
     {
         user: sampleUs[0],
         subscription: sampleS[0],
@@ -74,7 +74,7 @@ const sampleCost: Cost[] = [
 
 ]
 
-export function fetchTotalCost(): Promise<Cost[]> {
+export function fetchTotalCost(): Promise<any> {
     // hit backend api endpoint to fetch cost query from database.
     return new Promise((resolve) => {resolve(sampleCost)});
 }

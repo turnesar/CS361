@@ -15,40 +15,9 @@ export const sampleVendors: Vendor[] = [
     }
 ]
 
-const sampleSubscriptions: Subscription[] = [
-    {
-        id: "001",
-        name: 'Internet',
-        startDate: '12/01/2019',
-        price: '89',
-        interval: Interval.Monthly,
-        vendor: sampleVendors[0],
-        order: 0,
-    },
-    {
-        id: "002",
-        name: 'My netflix',
-        startDate: '01/01/2020',
-        price: '14.99',
-        interval: Interval.Monthly,
-        vendor: sampleVendors[1],
-        category: {id: '0', name: 'streaming' },
-        order: 1,
-    },
-    {
-        id: "003",
-        name: 'Prime subscription',
-        startDate: '11/24/2018',
-        price: '100',
-        interval: Interval.Annual,
-        vendor: sampleVendors[2],
-        order: 2,
-    }
-]
-
-export function fetchSubscriptions(): Promise<Subscription[]> {
-    // hit backend api endpoint to fetch subscriptions from database.
-    return new Promise((resolve) => {resolve(sampleSubscriptions)});
+export async function fetchSubscriptions(): Promise<Subscription[]> {
+    const response = await fetch('http://localhost:3005/main');
+    return response.json();
 }
 
 

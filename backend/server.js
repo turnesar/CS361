@@ -51,9 +51,37 @@ var server = app.listen(app.get('port'),() => {
     console.log('Express started on port ' + port);
 });
 
+/*
 
-//also need to add post for login, password method? 
-//also our default route, assume login?
+function shallNotPass(req, res, next){
+    if(!req.session.user_id){
+        res.send('you shall not pass');  
+    }else{
+        next();
+    }
+}
+*/
+//need to add the cookie and session 
+app.post('/login', (req,res)=>{
+    let userAuth = req.body.UserName; 
+    var checkUser = "SELECT * FROM `appuser` WHERE UserName =?"
+    pool.query(checkUser, userAuth, (err, rows, result, fields)=>{
+        if(err)
+        {
+            res.json(err);
+            console.log(err);
+            return;
+        }
+        if (result.length>0) {
+            res.json(rows);
+
+        } else {
+            res.send('you shall not pass');
+        }     
+
+    })
+});
+
 /**
    *INSERT USER 
    * ***/
