@@ -3,12 +3,13 @@ import { Interval } from './interval';
 import { Vendor } from './vendor';
 
 export interface Subscription {
-    id: string;
-    name: string;
-    startDate: string; //we need a start date here 
-    price: string;
-    interval: Interval;
-    category?: Category;
-    vendor: Vendor;
-    order: number;
+    SubscriptionID: number;
+    UserID: number;
+    Price: number;
+    ChargeInterval: Interval;
+    CategoryID: number;
+    VendorID: number;
+    ItemOrder: number;
+    SubName: string;
+    EntryDateTStamp: string;
 }
