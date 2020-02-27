@@ -63,9 +63,8 @@ function shallNotPass(req, res, next){
 */
 //need to add the cookie and session 
 app.post('/login', (req,res)=>{
-    let userAuth = req.body.UserName; 
-    var checkUser = "SELECT * FROM `appuser` WHERE UserName =?"
-    pool.query(checkUser, userAuth, (err, rows, result, fields)=>{
+    var checkUser = "SELECT * FROM `appuser` WHERE UserName =?";
+    pool.query(checkUser, [req.body.UserName], (err, rows, result, fields)=>{
         if(err)
         {
             res.json(err);
@@ -99,14 +98,31 @@ app.post('/login', (req,res)=>{
         res.json(rows);
     })
 });
+
+  /**  SUBSCRIPTION QUERIES ****************************
+   * FOR TEST 
+   * SELECT QUERY
+   */
+  app.get('/supersecret',(req,res)=> {
+    pool.query('SELECT * FROM `Subscription`',(err,rows,result,fields)=>{
+        if(err)
+        {
+            res.json(err);
+            console.log(err);
+            return;
+        }
+        console.log(rows);
+        res.json(rows);
+    })
+});
+
   /**  SUBSCRIPTION QUERIES ****************************
    * GET ALL SUBSCRIPTION DATA 
    * SELECT QUERY
    */
 app.get('/main',(req,res)=> {
-    let userData = [req.body.UserID];
-    var subs_sql = "SELECT appuser.UserName, subscription.UserID, subscription.Price, subscription.ChargeInterval, category.CategoryName, vendor.VendorName, subscription.ItemOrder, subscription.EntryDateTStamp FROM subscription INNER JOIN appuser ON appuser.UserID = subscription.UserID INNER JOIN category ON category.CategoryID = subscription.CategoryID INNER JOIN vendor ON vendor.VendorID = subscription.VendorID WHERE subscription.UserID = ?;";    
-    pool.query(subs_sql,(err,rows,result,fields)=>{
+    var subs_sql = 'SELECT `appuser.UserName`, `subscription.UserID`, `subscription.Price`, `subscription.ChargeInterval`, `category.CategoryName`, `vendor.VendorName`, `subscription.ItemOrder`, `subscription.EntryDateTStamp` FROM `subscription` INNER JOIN `appuser` ON `appuser.UserID` = `subscription.UserID` INNER JOIN `category` ON `category.CategoryID` = `subscription.CategoryID` INNER JOIN `vendor` ON `vendor.VendorID` = `subscription.VendorID` WHERE `subscription.UserID` = ?';    
+    pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
@@ -142,7 +158,7 @@ app.get('/main/vendor',(req,res)=> {
    * ***/
   app.post('/subscription',(req,res)=>{
     let subData = [req.body.UserId, req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorId, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp];
-    var insertSub ="INSERT INTO `subscription` (`UserId`, `Price`, `ChargeInterval`, `CategoryId`, `VendorId`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)"
+    var insertSub ="INSERT INTO `subscription` (`UserId`, `Price`, `ChargeInterval`, `CategoryId`, `VendorId`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)";
     pool.query(insertSub,[subData],(err,rows,result,fields)=>{
         if(err)
         {
@@ -197,8 +213,8 @@ app.get('/main/vendor',(req,res)=> {
    * TO USE IN COST LIST 
    ***/
   app.get('/costs/month',(req,res)=> {
-    pool.query("SELECT ROUND(SUM((CASE WHEN ChargeInterval = 'Monthly' THEN Price WHEN ChargeInterval = 'Weekly' THEN (Price * 4.33) WHEN ChargeInterval = 'Annual' THEN (Price/12) END )),3) AS MonthlyEquivalent FROM subscription WHERE subscription.UserID = ?;"
-    ,[req.params.UserId],(err,rows,result,fields)=>{
+    pool.query("SELECT ROUND(SUM((CASE WHEN `ChargeInterval` = 'Monthly' THEN `Price` WHEN `ChargeInterval` = 'Weekly' THEN (`Price` * 4.33) WHEN `ChargeInterval` = 'Annual' THEN (`Price`/12) END )),3) AS `MonthlyEquivalent` FROM `subscription` WHERE `subscription.UserID` = ?"
+    ,[req.params.UserID],(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
@@ -215,7 +231,7 @@ app.get('/main/vendor',(req,res)=> {
    * TO USE IN COST LIST 
    **/
   app.get('/costs/allTime',(req,res)=> {
-    pool.query("SELECT UserID, EntryDateTStamp, SubName,(CASE WHEN ChargeInterval = 'Monthly' THEN (Price* TIMESTAMPDIFF(MONTH, EntryDateTStamp, NOW())+1) WHEN ChargeInterval = 'Weekly' THEN (Price*(TIMESTAMPDIFF(WEEK, EntryDateTStamp, NOW())+1)) WHEN ChargeInterval = 'Annual' THEN (Price*(TIMESTAMPDIFF(YEAR, EntryDateTStamp, NOW())+1)) END) AS 'TotalCost' FROM subscription WHERE subscription.UserID = ?;",
+    pool.query("SELECT `UserID`, `EntryDateTStamp`, `SubName`,(CASE WHEN `ChargeInterval` = 'Monthly' THEN (`Price`* TIMESTAMPDIFF(MONTH, `EntryDateTStamp`, NOW())+1) WHEN `ChargeInterval` = 'Weekly' THEN (`Price`*(TIMESTAMPDIFF(WEEK, `EntryDateTStamp`, NOW())+1)) WHEN `ChargeInterval` = 'Annual' THEN (`Price`*(TIMESTAMPDIFF(YEAR, `EntryDateTStamp`, NOW())+1)) END) AS `TotalCost` FROM `subscription` WHERE `subscription.UserID` = ?",
     [req.params.UserId],(err,rows,result,fields)=>{
         if(err)
         {
