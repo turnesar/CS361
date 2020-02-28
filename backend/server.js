@@ -120,10 +120,8 @@ app.post('/login', (req,res)=>{
    * GET ALL SUBSCRIPTION DATA 
    * SELECT QUERY
    */
-app.get('/main',(req,res)=> {
-    var subs_sql = 'SELECT `appuser.UserName`, `subscription.UserID`, `subscription.Price`, `subscription.ChargeInterval`, `category.CategoryName`, `vendor.VendorName`, `subscription.ItemOrder`, `subscription.EntryDateTStamp` FROM `subscription` INNER JOIN `appuser` ON `appuser.UserID` = `subscription.UserID` INNER JOIN `category` ON `category.CategoryID` = `subscription.CategoryID` INNER JOIN `vendor` ON `vendor.VendorID` = `subscription.VendorID` WHERE `subscription.UserID` = 1';    
-    // pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
-    pool.query(subs_sql,(err,rows,result,fields)=>{
+  app.get('/main',(req,res)=> {
+    pool.query('Select * from subscription s left join (select UserID from appuser) a on s.UserID = a.UserID where s.UserID = 1',(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
