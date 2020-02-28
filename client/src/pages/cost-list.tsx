@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchSubscriptions, fetchTotalCost } from '../services'
-import { Subscription, User, Cost } from '../models';
+import { fetchMonthlyCost, fetchTotalCost } from '../services'
+import { Subscription, MonthCost, Cost } from '../models';
 import moment from 'moment';
 import './list.css';
 import List from '@material-ui/core/List';
@@ -12,23 +12,22 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
-
-
-
 export const CostList: React.FunctionComponent = () => {
     const [costs, setCosts] = useState<Cost[]>([])
-
     useEffect(() => {
         fetchTotalCost().then(response => {
             setCosts(response);
         });
     }, []);
-     
-  // return total monthly Cost here, give UserId and receive the 
-  // MonthlyEquivalent
-     
+  
+    const [monthcost, setMonthCost] = useState<MonthCost[]>([])
+    useEffect(() => {
+        fetchMonthlyCost().then(response => {
+            setMonthCost(response);
+        });
+    }, []);
 
-    const items = costs.map(value => 
+     const items = costs.map(value => 
         (<ListItem>
             <ListItemAvatar>
                 <Avatar>
@@ -36,24 +35,36 @@ export const CostList: React.FunctionComponent = () => {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText className="name-col"
-                primary={value.subscription.VendorID}
+                primary={value.SubName}
               
             />
             <ListItemText
-                primary={`$${value.totalCost}`}
+                primary={`$${value.TotalSubscriptionCost}`}
                     />
             
         </ListItem>)
     );
-        // this will be used for the itemized list based on user id fetch */
-        // name of the vendor and the total cost 
-  //  return <li>{item.subscription.vendor.name} :${item.totalCost}</li>;
-   // })
+
+    const dataThings = monthcost.map(value => 
+        (<ListItem>
+            <ListItemAvatar>
+                <Avatar>
+                    <MonetizationOnIcon />
+                </Avatar>
+            </ListItemAvatar>
+            <ListItemText className="name-col"
+                primary={value.TotalMonthlyCost}
+              
+            />  
+        </ListItem>)
+    );
 
     return (
         <>
             <h2> Monthly Overall Cost for {moment().format('MMMM')}:</h2>
-            <h4> $103.99</h4>
+            <List dense = {false}>
+                {dataThings}
+            </List>
             <h2>Total Cost Per Subscription For All Time: </h2>
             <List dense={false}>
                 {items}

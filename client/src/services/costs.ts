@@ -1,4 +1,4 @@
-import { Interval, Subscription, Vendor, User, Cost } from '../models';
+import { Interval, MonthCost, Vendor, User, Cost } from '../models';
 
 export const sampleVs: Vendor[] = [
     {
@@ -74,11 +74,15 @@ const sampleCost = [
 
 ]
 
-export function fetchTotalCost(): Promise<any> {
-    // hit backend api endpoint to fetch cost query from database.
-    return new Promise((resolve) => {resolve(sampleCost)});
+export async function fetchTotalCost(): Promise<Cost[]> {
+        const response = await fetch('http://localhost:3005/costs/allTime');
+        return response.json();
 }
 
+export async function fetchMonthlyCost(): Promise<MonthCost[]>{
+    const res = await fetch('http://localhost:3005/costs/month');
+    return res.json();
+  }
 
 //export function fetchMonthlyCost(): Pri(cost: Cost) {
     // hit backend api endpoint to post new subscription to database.

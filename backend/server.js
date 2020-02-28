@@ -121,8 +121,9 @@ app.post('/login', (req,res)=>{
    * SELECT QUERY
    */
 app.get('/main',(req,res)=> {
-    var subs_sql = 'SELECT `appuser.UserName`, `subscription.UserID`, `subscription.Price`, `subscription.ChargeInterval`, `category.CategoryName`, `vendor.VendorName`, `subscription.ItemOrder`, `subscription.EntryDateTStamp` FROM `subscription` INNER JOIN `appuser` ON `appuser.UserID` = `subscription.UserID` INNER JOIN `category` ON `category.CategoryID` = `subscription.CategoryID` INNER JOIN `vendor` ON `vendor.VendorID` = `subscription.VendorID` WHERE `subscription.UserID` = ?';    
-    pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+    var subs_sql = 'SELECT `appuser.UserName`, `subscription.UserID`, `subscription.Price`, `subscription.ChargeInterval`, `category.CategoryName`, `vendor.VendorName`, `subscription.ItemOrder`, `subscription.EntryDateTStamp` FROM `subscription` INNER JOIN `appuser` ON `appuser.UserID` = `subscription.UserID` INNER JOIN `category` ON `category.CategoryID` = `subscription.CategoryID` INNER JOIN `vendor` ON `vendor.VendorID` = `subscription.VendorID` WHERE `subscription.UserID` = 1';    
+    // pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+    pool.query(subs_sql,(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
@@ -213,8 +214,9 @@ app.get('/main/vendor',(req,res)=> {
    * TO USE IN COST LIST
    ***/
   app.get('/costs/month',(req,res)=> {
-    var subs_sql = "SELECT FORMAT(SUM(a.MonthlyEquivalent), 2) AS 'TotalMonthlyCost' FROM appuser u LEFT JOIN(select UserID, CASE WHEN ChargeInterval = 'Monthly' THEN Price WHEN ChargeInterval = 'Weekly' THEN (Price*4.33) WHEN ChargeInterval = 'Annual' THEN (Price/12) END AS 'MonthlyEquivalent' from subscription) a ON u.UserID = a.UserID where u.UserID = ?;";
-pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+    var subs_sql = "SELECT FORMAT(SUM(a.MonthlyEquivalent), 2) AS 'TotalMonthlyCost' FROM appuser u LEFT JOIN(select UserID, CASE WHEN ChargeInterval = 'Monthly' THEN Price WHEN ChargeInterval = 'Weekly' THEN (Price*4.33) WHEN ChargeInterval = 'Annual' THEN (Price/12) END AS 'MonthlyEquivalent' from subscription) a ON u.UserID = a.UserID where u.UserID = 1;";
+     //pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+   pool.query(subs_sql,(err,rows,result,fields)=>{
        if(err)
     {
         res.json(err);
@@ -229,8 +231,9 @@ pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
 * TO USE IN COST LIST
 **/
 app.get('/costs/allTime',(req,res)=> {
-     var subs_sql = "select a.SubName, DATE_FORMAT(a.EntryDateTStamp, '%m/%d/%y') as 'SubscriberSince', format(a.TotalCost, 2) as 'TotalSubscriptionCost' from appuser u left join (select UserID, EntryDateTStamp, SubName, case when ChargeInterval = 'Monthly' then (Price*(select timestampdiff(month, EntryDateTStamp, NOW())+1)) when ChargeInterval = 'Weekly' then (Price*(select timestampdiff(week, EntryDateTStamp, NOW())+1)) when ChargeInterval = 'Annual' then (Price*(select timestampdiff(year, EntryDateTStamp, NOW())+1)) end as 'TotalCost' from subscription) a on u.UserID = a.UserID where u.UserID = ?;";
- pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+     var subs_sql = "select a.SubName, DATE_FORMAT(a.EntryDateTStamp, '%m/%d/%y') as 'SubscriberSince', format(a.TotalCost, 2) as 'TotalSubscriptionCost' from appuser u left join (select UserID, EntryDateTStamp, SubName, case when ChargeInterval = 'Monthly' then (Price*(select timestampdiff(month, EntryDateTStamp, NOW())+1)) when ChargeInterval = 'Weekly' then (Price*(select timestampdiff(week, EntryDateTStamp, NOW())+1)) when ChargeInterval = 'Annual' then (Price*(select timestampdiff(year, EntryDateTStamp, NOW())+1)) end as 'TotalCost' from subscription) a on u.UserID = a.UserID where u.UserID = 1;";
+     //pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
+        pool.query(subs_sql,(err,rows,result,fields)=>{
         if(err)
      {
          res.json(err);
