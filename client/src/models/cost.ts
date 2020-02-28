@@ -3,6 +3,6 @@ import { Subscription } from './subscription';
 
 export interface Cost {
     SubName: string;
-    SuscriberSince: string;
+    SubscriberSince: string;
     TotalSubscriptionCost: string; 
 }

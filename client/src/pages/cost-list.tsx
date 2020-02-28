@@ -36,8 +36,10 @@ export const CostList: React.FunctionComponent = () => {
             </ListItemAvatar>
             <ListItemText className="name-col"
                 primary={value.SubName}
-              
             />
+            <ListItemText
+                primary={`Since ${value.SubscriberSince}`}
+                                    />
             <ListItemText
                 primary={`$${value.TotalSubscriptionCost}`}
                     />
