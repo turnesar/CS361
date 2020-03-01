@@ -28,7 +28,7 @@ export const CostList: React.FunctionComponent = () => {
     }, []);
 
      const items = costs.map(value => 
-        (<ListItem>
+        (<ListItem key={value.SubName}>
             <ListItemAvatar>
                 <Avatar>
                     <MonetizationOnIcon />
@@ -47,8 +47,8 @@ export const CostList: React.FunctionComponent = () => {
         </ListItem>)
     );
 
-    const dataThings = monthcost.map(value => 
-        (<ListItem>
+    const dataThings = monthcost.map((value, index) => 
+        (<ListItem key={index}>
             <ListItemAvatar>
                 <Avatar>
                     <MonetizationOnIcon />
