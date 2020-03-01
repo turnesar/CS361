@@ -10,7 +10,7 @@ import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
-import { fetchSubscriptions } from '../services'
+import { deleteSubscription, fetchSubscriptions } from '../services'
 import { Subscription } from '../models';
 
 import './list.css';
@@ -24,7 +24,7 @@ export const SubscriptionList: React.FunctionComponent = () => {
         });
     }, []);
 
-    const items = subscriptions.map(value => 
+    const items = subscriptions.map((value, index) => 
         (<ListItem key={value.SubscriptionID}>
             <ListItemAvatar>
                 <Avatar>
@@ -36,8 +36,8 @@ export const SubscriptionList: React.FunctionComponent = () => {
                 secondary={false ? 'Secondary text' : null}
             />
             <ListItemText
-                primary={value.VendorID}
-                secondary={true ? value.CategoryID ? value.CategoryID : '' : null}
+                primary={value.VendorId}
+                secondary={true ? value.CategoryId ? value.CategoryId : '' : null}
             />
              <ListItemText
                 primary={`$${value.Price}`}
@@ -47,7 +47,10 @@ export const SubscriptionList: React.FunctionComponent = () => {
             <IconButton edge="end" aria-label="edit">
                     <EditIcon />
                 </IconButton>
-                <IconButton edge="end" aria-label="delete">
+                <IconButton edge="end" aria-label="delete" onClick={() => {
+                    handleDelete(value.SubscriptionID!);
+                    setSubscriptions(subscriptions.filter(item => item.SubscriptionID !== value.SubscriptionID));
+                }}>
                     <DeleteIcon />
                 </IconButton>
             </ListItemSecondaryAction>
@@ -63,4 +66,10 @@ export const SubscriptionList: React.FunctionComponent = () => {
         </List>
     </>
   );
+};
+
+function handleDelete(id: number) {
+    deleteSubscription(id).then(result => {
+        console.log(result);
+    });
 }
