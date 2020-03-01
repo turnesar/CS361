@@ -84,6 +84,7 @@ export const SubscriptionForm: React.FunctionComponent = () => {
                 <div>
                     <TextField className="sub-price" 
                         id="filled-basic" 
+                        type="number"
                         label="Price in Dollars" 
                         onChange={handlePriceChange}/>
                 
