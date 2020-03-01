@@ -30,11 +30,10 @@ export async function createSubscription(newSub: NewSubscription): Promise<any> 
         method: 'POST',
         mode: 'no-cors',
         cache: 'no-cache',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(payload),
-    });
+    } as RequestInit);
     
-    console.log(response);
+    return response.json();
 }
-  

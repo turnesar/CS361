@@ -16,8 +16,9 @@ var pool = mysql.createPool({
 //uses second argument to set port
 //app.set('port', process.argv[2]);
 app.set('port', '3005');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.text())
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /**
  * ADD HEADERS
@@ -155,6 +156,9 @@ app.get('/subscriptions',(req,res)=> {
  * INSERT SUBSCRIPTION 
  */
 app.post('/subscriptions',(req,res)=>{
+    if (typeof(req.body) === 'string') {
+        req.body = JSON.parse(req.body);
+    }
     let subData = [req.body.UserId, req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorId, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp];
     var insertSub ="INSERT INTO `subscription` (`UserID`, `Price`, `ChargeInterval`, `CategoryId`, `VendorID`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)";
     pool.query(insertSub,[subData],(err,rows,result,fields)=>{
@@ -166,7 +170,7 @@ app.post('/subscriptions',(req,res)=>{
         }
         console.log(rows);
         res.json(rows);
-    })
+    });
 });
 
 
