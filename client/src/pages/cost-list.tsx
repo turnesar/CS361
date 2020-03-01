@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMonthlyCost, fetchTotalCost } from '../services'
-import { Subscription, MonthCost, Cost } from '../models';
-import moment from 'moment';
-import './list.css';
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+
+import { MonthCost, Cost } from '../models';
+import { fetchMonthlyCost, fetchTotalCost } from '../services'
+
+import './list.css';
 
 export const CostList: React.FunctionComponent = () => {
     const [costs, setCosts] = useState<Cost[]>([])

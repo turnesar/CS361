@@ -3,7 +3,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 
-
 var app = express();
 
 var pool = mysql.createPool({
@@ -12,8 +11,7 @@ var pool = mysql.createPool({
     user : 'be0e19f3967445',
     password : 'd5155e58',
     database : 'heroku_4331544cc5ebc31' 
-  });
-
+});
 
 //uses second argument to set port
 //app.set('port', process.argv[2]);
@@ -21,9 +19,9 @@ app.set('port', '3005');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-  /**
-   * ADD HEADERS
-   */
+/**
+ * ADD HEADERS
+ */
 app.use((req,res,next)=>  {
 
     // Website you wish to allow to connect
@@ -33,7 +31,7 @@ app.use((req,res,next)=>  {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-type,Accept');
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -42,17 +40,16 @@ app.use((req,res,next)=>  {
     // Pass to next layer of middleware
     next();
 });
-/**
-   * STARTS UP SERVER ACCEPTING REQUESTS
-**/
 
+/**
+ * STARTS UP SERVER ACCEPTING REQUESTS 
+ */
 var server = app.listen(app.get('port'),() => {
     var port = server.address().port;
     console.log('Express started on port ' + port);
 });
 
 /*
-
 function shallNotPass(req, res, next){
     if(!req.session.user_id){
         res.send('you shall not pass');  
@@ -61,6 +58,7 @@ function shallNotPass(req, res, next){
     }
 }
 */
+
 //need to add the cookie and session 
 app.post('/login', (req,res)=>{
     var checkUser = "SELECT * FROM `appuser` WHERE UserName =?";
@@ -77,14 +75,13 @@ app.post('/login', (req,res)=>{
         } else {
             res.send('you shall not pass');
         }     
-
     })
 });
 
 /**
-   *INSERT USER 
-   * ***/
-  app.post('/signup',(req,res)=>{
+ * INSERT USER 
+ */
+app.post('/signup',(req,res)=>{
     let userData = [req.body.UserName, req.body.UserCreateDateTStamp];
     var insertUser ="INSERT INTO `appuser` (`UserName`, `UserCreateDateTStamp`) VALUES (?)"
     pool.query(insertUser,[userData],(err,rows,result,fields)=>{
@@ -99,12 +96,11 @@ app.post('/login', (req,res)=>{
     })
 });
 
-  /**  SUBSCRIPTION QUERIES ****************************
-   * FOR TEST 
-   * SELECT QUERY
-   */
-  app.get('/supersecret',(req,res)=> {
-    pool.query('SELECT * FROM `Subscription`',(err,rows,result,fields)=>{
+/**
+ * fetch vendors:
+ */
+app.get('/vendors',(req,res)=> {
+    pool.query('SELECT * FROM `vendor`',(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
@@ -116,11 +112,28 @@ app.post('/login', (req,res)=>{
     })
 });
 
-  /**  SUBSCRIPTION QUERIES ****************************
-   * GET ALL SUBSCRIPTION DATA 
-   * SELECT QUERY
-   */
-  app.get('/main',(req,res)=> {
+/**  SUBSCRIPTION QUERIES ****************************
+ * FOR TEST 
+ * SELECT QUERY
+ */
+app.get('/supersecret',(req,res)=> {
+    pool.query('SELECT * FROM `subscription`',(err,rows,result,fields)=>{
+        if(err)
+        {
+            res.json(err);
+            console.log(err);
+            return;
+        }
+        console.log(rows);
+        res.json(rows);
+    })
+});
+
+/**  SUBSCRIPTION QUERIES ****************************
+ * GET ALL SUBSCRIPTION DATA 
+ * SELECT QUERY
+ */
+app.get('/subscriptions',(req,res)=> {
     pool.query('Select * from subscription s left join (select UserID from appuser) a on s.UserID = a.UserID where s.UserID = 1',(err,rows,result,fields)=>{
         if(err)
         {
@@ -132,32 +145,18 @@ app.post('/login', (req,res)=>{
         res.json(rows);
     })
 });
-  /**  SUBSCRIPTION QUERIES ****************************
-   * GET  SORTED SUBSCRIPTION FROM SUBSCRIPTION TABLE WITH JOINS
-   * SELECT QUERY
-   * **********
-   
-app.get('/main/vendor',(req,res)=> {
-    var subsV_sql = "put query here";   
-    pool.query(subsV_sql,[req.query.vendor_name],(err,rows,result,fields)=>{
-        if(err)
-        {
-            res.json(err);
-            console.log(err);
-            return;
-        }
-        console.log(rows);
-        res.json(rows);
-    })
-});
-*/
+
+/**  SUBSCRIPTION QUERIES ****************************
+ * GET  SORTED SUBSCRIPTION FROM SUBSCRIPTION TABLE WITH JOINS
+ * SELECT QUERY
+ */
  
- /**
-   *INSERT SUBSCRIPTION 
-   * ***/
-  app.post('/subscription',(req,res)=>{
+/**
+ * INSERT SUBSCRIPTION 
+ */
+app.post('/subscriptions',(req,res)=>{
     let subData = [req.body.UserId, req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorId, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp];
-    var insertSub ="INSERT INTO `subscription` (`UserId`, `Price`, `ChargeInterval`, `CategoryId`, `VendorId`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)";
+    var insertSub ="INSERT INTO `subscription` (`UserID`, `Price`, `ChargeInterval`, `CategoryId`, `VendorID`, `ItemOrder`, `SubName`, `EntryDateTStamp`) VALUES (?)";
     pool.query(insertSub,[subData],(err,rows,result,fields)=>{
         if(err)
         {
@@ -171,11 +170,10 @@ app.get('/main/vendor',(req,res)=> {
 });
 
 
- /**
-   * UPDATE subscription for any value but user id
-   * */
-  
-  app.put('/subscription',(req,res)=>{
+/**
+ * UPDATE subscription for any value but user id
+ */  
+app.put('/subscriptions',(req,res)=>{
     var updatedSub = [req.body.Price, req.body.ChargeInterval, req.body.CategoryId, req.body.VendorID, req.body.ItemOrder, req.body.SubName, req.body.EntryDateTStamp, req.body.SubscriptionID];
     var updatesql = "UPDATE `subscription` SET `Price`=?, `ChargeInterval`=?, `CategoryId`=?, `VendorID`=?, `ItemOrder`=?, `SubName`=?, `EntryDateTStamp`=? WHERE `SubscriptionID`=?";
     pool.query(updatesql,updatedSub,(err,rows,result,fields)=>{
@@ -190,11 +188,10 @@ app.get('/main/vendor',(req,res)=> {
     })
 });
 
-   /**
-   * DELETE SUBSCRIPTION via subID
-   * ***/  
-  
-  app.delete('/subscription/:SubscriptionID',(req,res)=>{
+/**
+ * DELETE SUBSCRIPTION via subID
+ */  
+app.delete('/subscriptions/:SubscriptionID', (req,res)=>{
     pool.query('DELETE FROM `Subscription` WHERE  id = ?',[req.params.SubscriptionID],(err,rows,result,fields)=>{
         if(err)
         {
@@ -208,13 +205,13 @@ app.get('/main/vendor',(req,res)=> {
 });
   
 /**
-   * GET total costs for month
-   * TO USE IN COST LIST
-   ***/
-  app.get('/costs/month',(req,res)=> {
+ * GET total costs for month
+ * TO USE IN COST LIST
+ */
+app.get('/costs/month',(req,res)=> {
     var subs_sql = "SELECT FORMAT(SUM(a.MonthlyEquivalent), 2) AS 'TotalMonthlyCost' FROM appuser u LEFT JOIN(select UserID, CASE WHEN ChargeInterval = 'Monthly' THEN Price WHEN ChargeInterval = 'Weekly' THEN (Price*4.33) WHEN ChargeInterval = 'Annual' THEN (Price/12) END AS 'MonthlyEquivalent' from subscription) a ON u.UserID = a.UserID where u.UserID = 1;";
      //pool.query(subs_sql,[req.params.UserID],(err,rows,result,fields)=>{
-   pool.query(subs_sql,(err,rows,result,fields)=>{
+    pool.query(subs_sql,(err,rows,result,fields)=>{
        if(err)
     {
         res.json(err);

@@ -1,5 +1,5 @@
 export interface User {
-    id: string;
-    name: string;
-    startDate: string; 
+    UserId: number,
+	UserName: string,
+	UserCreateDateTStamp: Date,
 }

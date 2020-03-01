@@ -36,8 +36,8 @@ export const SubscriptionList: React.FunctionComponent = () => {
                 secondary={false ? 'Secondary text' : null}
             />
             <ListItemText
-                primary={value.VendorID}
-                secondary={true ? value.CategoryID ? value.CategoryID : '' : null}
+                primary={value.VendorId}
+                secondary={true ? value.CategoryId ? value.CategoryId : '' : null}
             />
              <ListItemText
                 primary={`$${value.Price}`}
