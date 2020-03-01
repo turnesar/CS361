@@ -136,7 +136,7 @@ app.get('/supersecret',(req,res)=> {
  * SELECT QUERY
  */
 app.get('/subscriptions',(req,res)=> {
-    pool.query('Select * from subscription s left join (select UserID from appuser) a on s.UserID = a.UserID where s.UserID = 1',(err,rows,result,fields)=>{
+    pool.query('Select SubscriptionID, s.UserID, format(Price, 2) as Price, ChargeInterval, CategoryID, VendorID, ItemOrder, SubName, EntryDateTStamp from subscription s left join (select UserID from appuser) a on s.UserID = a.UserID where s.UserID = 1',(err,rows,result,fields)=>{
         if(err)
         {
             res.json(err);
