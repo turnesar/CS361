@@ -15,12 +15,12 @@ export const fetchVendors = async (): Promise<Vendor[]> => {
     return Promise.resolve(sampleVendors);
 } 
 
-export async function fetchSubscriptions(): Promise<Subscription[]> {
+export const fetchSubscriptions = async (): Promise<Subscription[]> => {
     const response = await fetch('http://localhost:3005/subscriptions');
     return response.json();
 }
 
-export async function createSubscription(newSub: NewSubscription): Promise<any> {
+export const createSubscription = async (newSub: NewSubscription): Promise<any> => {
 
     const payload: Subscription = {
         ...newSub, ...{ UserId: 1, CategoryId: 1 }
@@ -28,12 +28,22 @@ export async function createSubscription(newSub: NewSubscription): Promise<any> 
 
     const response = await fetch('http://localhost:3005/subscriptions', {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         cache: 'no-cache',
-        headers: { 'Content-Type': 'text/plain' },
+        headers: { 'Content-Type': 'application/json' },
         referrerPolicy: 'no-referrer',
         body: JSON.stringify(payload),
     } as RequestInit);
+
+    return response;
+}
+
+export const deleteSubscription = async (subId: number): Promise<any> => {
+    const response = await fetch(`http://localhost:3005/subscriptions/${subId}`, {
+        method: 'DELETE',
+        mode: 'cors',
+        credentials: 'omit',
+    });
     
-    return response.json();
+    return response;
 }

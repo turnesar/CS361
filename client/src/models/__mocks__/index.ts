@@ -17,12 +17,12 @@ export const sampleUsers: User[] = [
 
 export const sampleVendors: Vendor[] = [
     {
-        VendorId: 0,
+        VendorId: 1,
         VendorName: 'Xfinity',
         VendorSite: '',
     },
     {
-        VendorId: 1,
+        VendorId: 2,
         VendorName: 'Netflix',
         VendorSite: '',
 

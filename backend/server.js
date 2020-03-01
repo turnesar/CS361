@@ -1,6 +1,6 @@
 "use strict";
 var express = require('express');
-var bodyParser = require('body-parser');
+var cors = require('cors');
 var mysql = require('mysql');
 
 var app = express();
@@ -13,10 +13,11 @@ var pool = mysql.createPool({
     database : 'heroku_4331544cc5ebc31' 
 });
 
+app.use(cors());
+
 //uses second argument to set port
 //app.set('port', process.argv[2]);
 app.set('port', '3005');
-app.use(express.text())
 app.use(express.json()) // for parsing application/json
 app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
@@ -36,7 +37,7 @@ app.use((req,res,next)=>  {
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Credentials', false);
 
     // Pass to next layer of middleware
     next();
@@ -142,7 +143,9 @@ app.get('/subscriptions',(req,res)=> {
             console.log(err);
             return;
         }
-        console.log(rows);
+        rows.map((row) => {
+            console.log("fetched sub with id: ", row.SubscriptionID);
+        })
         res.json(rows);
     })
 });
@@ -168,7 +171,7 @@ app.post('/subscriptions',(req,res)=>{
             console.log(err);
             return;
         }
-        console.log(rows);
+        console.log('Added successfully, id: ', rows.insertId);
         res.json(rows);
     });
 });
@@ -196,15 +199,15 @@ app.put('/subscriptions',(req,res)=>{
  * DELETE SUBSCRIPTION via subID
  */  
 app.delete('/subscriptions/:SubscriptionID', (req,res)=>{
-    pool.query('DELETE FROM `Subscription` WHERE  id = ?',[req.params.SubscriptionID],(err,rows,result,fields)=>{
+    pool.query('DELETE FROM `Subscription` WHERE  SubscriptionID = ?',[req.params.SubscriptionID],(err,rows,result,fields)=>{
         if(err)
         {
             res.send(err);
             console.log(err);
             return;
         }
-        console.log('deleted successfully');
-        res.send('deleted successfully');
+        console.log('deleted successfully, id: ', req.params.SubscriptionID);
+        res.send(rows);
    })
 });
   

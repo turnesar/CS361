@@ -114,5 +114,9 @@ export const SubscriptionForm: React.FunctionComponent = () => {
 }
 
 function submitForm(newSub: NewSubscription): void {
-    createSubscription(newSub);
+    createSubscription(newSub).then((result) => {
+        if (result.status === 200) {
+            window.location.href = '/home';
+        }
+    });
 }
